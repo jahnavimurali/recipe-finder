@@ -17,7 +17,7 @@ const Signup = () => {
         password
       });
       console.log(response.data);
-    //   navigate('/quiz');
+      navigate('/home');
 
     } catch (error) {
       console.error('Sign Up error:', error);
