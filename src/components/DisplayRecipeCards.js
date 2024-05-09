@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 export default function DisplayRecipeCards(props) {
     const recipes = props.props;
 
@@ -9,6 +11,7 @@ export default function DisplayRecipeCards(props) {
     return (
         <div className='recipe-cards'>
             {recipes.map((recipe, index) => (
+                <Link to={`/displayrecipe/${recipe.id}`} key={recipe.id}>
                 <div className='recipe-card' key={recipe.id}>
                     <>
                         <img className='recipe-image' src={recipe.image} alt={recipe.title} />
@@ -18,6 +21,7 @@ export default function DisplayRecipeCards(props) {
                         <img src="https://i.pinimg.com/474x/03/d4/ef/03d4ef3d56affe7f6a9280ceb1876e04.jpg"/>
                     </div>
                 </div>
+                </Link>
             ))}
         <style jsx>{`
             @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');

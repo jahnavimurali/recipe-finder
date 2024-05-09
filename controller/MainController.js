@@ -77,4 +77,31 @@ getRecipesRandom = async() => {
     }
 }
 
-module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom}
+getRecipeInformationByID = async(id)=>{
+    try{
+        console.log("from controller", id)
+        const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${api_key}&includeNutrition=false&addWinePairing=false&addTasteData=false`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const complete_data = await response.json()
+        // console.log(complete_data)
+        let ingredients = []
+        let data = {id: complete_data.id, title:complete_data.title, image: complete_data.image, sourceUrl: complete_data.sourceUrl, readyInMinutes: complete_data.readyInMinutes, servings: complete_data.servings}
+        const extendedIngredients = complete_data.extendedIngredients
+        extendedIngredients.map((ingredient)=>{
+            console.log(ingredient)
+            ingredients.push(ingredient.original)
+        })
+        data.ingredients = ingredients
+        return data;
+
+    }catch(err){
+        console.error(err)
+        throw err
+    }
+}
+
+module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID}
