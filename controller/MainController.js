@@ -116,6 +116,20 @@ getRecipeInformationByID = async(id)=>{
     }
 }
 
+getSavedRecipeIDs=async(username)=>{
+    try{
+        const db = await connect()
+        const usersCollection = db.collection('flavourQuest')
+        const user = await usersCollection.findOne({username})
+        console.log(user)
+        return user
+    }catch(err){
+        console.error(err)
+        throw err
+    }
+
+}
 
 
-module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID, saveRecipes}
+
+module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID, saveRecipes, getSavedRecipeIDs}

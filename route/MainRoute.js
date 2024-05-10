@@ -1,4 +1,4 @@
-const {getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID, saveRecipes} = require('../controller/MainController')
+const {getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID, saveRecipes, getSavedRecipeIDs} = require('../controller/MainController')
 
 const express = require('express')
 
@@ -103,6 +103,18 @@ router.post('/login', async(request,response)=>{
         response.status(500).json({message: data})
     }
 });
+
+router.get('/getSaved', async(req, res)=>{
+    try{
+        const username = req.query.username
+        const data = await getSavedRecipeIDs(username)
+        console.log("from route", data)
+        res.status(200).json({data})
+    }catch(err){
+        console.log(err)
+        res.status(500).json({message: 'internal server error'})
+    }
+})
 
 
 module.exports = router

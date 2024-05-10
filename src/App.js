@@ -7,15 +7,9 @@ import Signup from './components/Signup'
 import Login from './components/Login';
 import Home from './components/Home';
 import DisplayRecipe from './components/DisplayRecipe';
+import SavedRecipes from './components/SavedRecipes';
 
 import { UserProvider } from './components/UserContext';
-
-// import SearchByName from './components/SearchByName'
-// function App() {
-//   return (
-//     <SearchByName />
-//   );
-// }
 
 const App = () => {
 
@@ -28,7 +22,7 @@ const App = () => {
         <Route path='/signup' element={<Signup />}/>
         <Route path='/home' element={<Home />}/>
         <Route path="/displayrecipe/:id" element={<DisplayRecipe />} />
-        {/* <Route path="/saved" element={<Quiz />} />  */}
+        <Route path="/saved" element={<SavedRecipes />} /> 
       </Routes> 
       </BrowserRouter>
     </UserProvider>

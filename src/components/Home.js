@@ -1,12 +1,14 @@
 import {useState,useEffect} from 'react'
 import DisplayRecipeCards from './DisplayRecipeCards';
 import { useUser } from './UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home(){
     const [recipes, setRecipes] = useState([])
     const [searchQuery, setSearchQuery] = useState('')
     const [cuisine, setCuisine]=useState('')
     const [diet, setDiet]=useState('')
+    const navigate = useNavigate()
 
     const {userName} = useUser()
     console.log("HOME!", userName)
@@ -59,6 +61,10 @@ export default function Home(){
         }
     }
 
+    const handleSaveRetrieval = ()=>{
+        navigate('/saved')
+    }
+
     const cuisineOptions = ['African', 'Asian', 'American', 'British','Cajun','Caribbean','Chinese',
         'European','French','German','Greek','Indian','Irish','Italian','Japanese','Korean',
         'Mediterranean', 'Mexican','Southern','Spanish','Thai','Vietnamese'
@@ -95,6 +101,7 @@ export default function Home(){
                 }
             </select>
         <input type='button' value='search' onClick={handleInput}/>
+        <input type='button' value='search' onClick={handleSaveRetrieval}/>
         </div>
         <br></br>
         <br></br>
