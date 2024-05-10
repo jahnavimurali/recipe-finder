@@ -1,10 +1,13 @@
 // DisplayRecipe.js
 import React, {useState, useEffect}from 'react';
 import { useParams } from 'react-router-dom';
+import { useUser } from './UserContext';
+import axios from 'axios';
 
 export default function DisplayRecipe() {
     const { id } = useParams(); // Access the 'id' parameter from the URL
     const [recipeInfo, setRecipeInfo] = useState({})
+    const {userName} = useUser()
 
     useEffect(() => {
         const fetchInfo = async () => {
@@ -18,6 +21,7 @@ export default function DisplayRecipe() {
                 const data = await response.json();
                 // console.log(data.data)
                 setRecipeInfo(data.data)
+
             } catch (err) {
                 console.log(err);
             }
@@ -27,6 +31,25 @@ export default function DisplayRecipe() {
     
     }, []);
 
+    const HandleSave = async () => {
+        try {
+            console.log("HERE", userName, id);
+            const response = await fetch(`http://127.0.0.1:5000/save`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "username": userName,
+                    "id": id
+                })
+            });
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    
     return (
         <div className="recipe-container">
             <div className="recipe-header">
@@ -39,6 +62,7 @@ export default function DisplayRecipe() {
             <div className="recipe-content">
                 <div className="recipe-image">
                     <img src={recipeInfo.image} alt={recipeInfo.title} />
+                    <button onClick={HandleSave} >Save!</button>
                 </div>
                 <div className="recipe-details">
                     <h2>Ingredients Required:</h2>
@@ -123,6 +147,20 @@ export default function DisplayRecipe() {
                 .more-info a {
                     color: #007bff;
                     text-decoration: none;
+                }
+                button {
+                    color: #fff;
+                    background-color: #fc8019;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    position: relative;
+                    margin-top: 30px;
+                }
+                button:hover {
+                    background-color: #ff9933;
                 }
                 
             `}</style>

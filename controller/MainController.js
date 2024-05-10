@@ -32,6 +32,18 @@ userSignupAuth = async(name, username, password)=>{
     }
 }
 
+saveRecipes = async(username, id)=>{
+    try{
+        const db = await connect()
+        const usersCollection = db.collection('flavourQuest')
+        await usersCollection.updateOne({username: username}, {$push: {saved: id}})
+        return 'saved successfully'
+    }catch(err){
+        console.log(err)
+        throw err
+    }
+}
+
 
 getRecipesBySearch = async (searchQuery, cuisine, diet) =>{
     console.log("from main controller: ", searchQuery, cuisine, diet)
@@ -104,4 +116,6 @@ getRecipeInformationByID = async(id)=>{
     }
 }
 
-module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID}
+
+
+module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID, saveRecipes}

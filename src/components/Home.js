@@ -1,5 +1,6 @@
 import {useState,useEffect} from 'react'
 import DisplayRecipeCards from './DisplayRecipeCards';
+import { useUser } from './UserContext';
 
 export default function Home(){
     const [recipes, setRecipes] = useState([])
@@ -7,23 +8,26 @@ export default function Home(){
     const [cuisine, setCuisine]=useState('')
     const [diet, setDiet]=useState('')
 
+    const {userName} = useUser()
+    console.log("HOME!", userName)
+
     useEffect(() => {
-        const fetchRandom = async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/random`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await response.json();
-                setRecipes(data.data);
-            } catch (err) {
-                console.log(err);
-            }
-        };
+        // const fetchRandom = async () => {
+        //     try {
+        //         const response = await fetch(`http://localhost:5000/random`, {
+        //             method: 'GET',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             }
+        //         });
+        //         const data = await response.json();
+        //         setRecipes(data.data);
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
+        // };
     
-        fetchRandom();
+        // fetchRandom();
     
     }, []);
     

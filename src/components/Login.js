@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './UserContext';
 
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { setUserName } = useUser();
 
   const handleLogin = async () => {
     try {
@@ -15,6 +17,7 @@ const Login = () => {
         password
       });
       console.log(response.data);
+      setUserName(username);
       navigate('/home');
 
     } catch (error) {

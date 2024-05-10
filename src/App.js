@@ -8,6 +8,8 @@ import Login from './components/Login';
 import Home from './components/Home';
 import DisplayRecipe from './components/DisplayRecipe';
 
+import { UserProvider } from './components/UserContext';
+
 // import SearchByName from './components/SearchByName'
 // function App() {
 //   return (
@@ -18,7 +20,7 @@ import DisplayRecipe from './components/DisplayRecipe';
 const App = () => {
 
   return (
-    <div>
+    <UserProvider>
       <BrowserRouter>
       <Routes>
         <Route path='/' element={<Splash />}/>
@@ -29,8 +31,7 @@ const App = () => {
         {/* <Route path="/saved" element={<Quiz />} />  */}
       </Routes> 
       </BrowserRouter>
-      
-    </div>
+    </UserProvider>
   )
 }
 
