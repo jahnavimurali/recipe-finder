@@ -23,7 +23,7 @@ userSignupAuth = async(name, username, password)=>{
     try{
         const db = await connect()
         const usersCollection = db.collection('flavourQuest')
-        await usersCollection.insertOne({name: name, username: username, password: password, score: 0 });
+        await usersCollection.insertOne({name: name, username: username, password: password, saved: [] });
         return 'signup successful'
 
     } catch(err){
