@@ -118,10 +118,11 @@ getRecipeInformationByID = async(id)=>{
 
 getSavedRecipeIDs=async(username)=>{
     try{
+        console.log(username)
         const db = await connect()
         const usersCollection = db.collection('flavourQuest')
         const user = await usersCollection.findOne({username})
-        console.log(user)
+        // console.log("from controller", user);
         return user
     }catch(err){
         console.error(err)
@@ -130,6 +131,31 @@ getSavedRecipeIDs=async(username)=>{
 
 }
 
+getSavedRecipes=async(queryString)=>{
+    try{
+        const response = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${api_key}&ids=${queryString}&includeNutrition=false`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const data = await response.json()
+        var dataToSend = []
+        var recipeInfo = {}
+        data.map((recipe)=>{
+            recipeInfo['id']=recipe.id
+            recipeInfo['title']=recipe.title
+            recipeInfo['image']=recipe.image
+            dataToSend.push(recipeInfo)
+        })
+        // console.log(dataToSend)
+        return dataToSend
+    }catch(err){
+        console.error(err)
+        throw err
+    }
+}
 
 
-module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID, saveRecipes, getSavedRecipeIDs}
+
+module.exports={getRecipesBySearch,userSignupAuth,userLoginAuth,getRecipesRandom, getRecipeInformationByID, saveRecipes, getSavedRecipeIDs, getSavedRecipes}
