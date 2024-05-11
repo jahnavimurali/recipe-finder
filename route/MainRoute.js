@@ -31,8 +31,8 @@ router.get('/search', async(req, res)=>{
 
 router.get('/displayrecipe', async(req, res)=>{
     const id = req.query.id
-    console.log(id)
-    console.log(req.query)
+    // console.log(id)
+    // console.log(req.query)
     try{
         const data = await getRecipeInformationByID(id)
         res.status(200).json({data})
@@ -46,8 +46,8 @@ router.post('/save', async(request, response)=>{
     try{
         const username = request.body.username;
         const id = request.body.id;
-        console.log(request.body)
-        console.log("from main route: ", username, id)
+        // console.log(request.body)
+        // console.log("from main route: ", username, id)
         data = await saveRecipes(username, id);
         if(data==='saved successfully'){
             response.status(200).json({message: data})

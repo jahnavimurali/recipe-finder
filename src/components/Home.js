@@ -14,22 +14,22 @@ export default function Home(){
     console.log("HOME!", userName)
 
     useEffect(() => {
-        // const fetchRandom = async () => {
-        //     try {
-        //         const response = await fetch(`http://localhost:5000/random`, {
-        //             method: 'GET',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         });
-        //         const data = await response.json();
-        //         setRecipes(data.data);
-        //     } catch (err) {
-        //         console.log(err);
-        //     }
-        // };
+        const fetchRandom = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/random`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                setRecipes(data.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
     
-        // fetchRandom();
+        fetchRandom();
     
     }, []);
     
@@ -77,6 +77,8 @@ export default function Home(){
         <div className='home-container'>
         <div className = 'search-bar'>
             <input id='search-query' type = 'text' placeholder='Search recipes...' onChange={handleSearchChange} value={searchQuery}/>
+            <input type='button' value='View your favourites!' onClick={handleSaveRetrieval}/>
+
         </div>
         <div className='filters'>
             <select value={cuisine} onChange={handleCuisineFilter}>
@@ -101,7 +103,6 @@ export default function Home(){
                 }
             </select>
         <input type='button' value='search' onClick={handleInput}/>
-        <input type='button' value='search' onClick={handleSaveRetrieval}/>
         </div>
         <br></br>
         <br></br>

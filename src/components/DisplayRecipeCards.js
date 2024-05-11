@@ -11,7 +11,7 @@ export default function DisplayRecipeCards(props) {
     return (
         <div className='recipe-cards'>
             {recipes.map((recipe, index) => (
-                <Link to={`/displayrecipe/${recipe.id}`} key={recipe.id}>
+                <Link style = {{textDecoration: 'none', color: 'black'}} to={`/displayrecipe/${recipe.id}`} key={recipe.id}>
                 <div className='recipe-card' key={recipe.id}>
                     <>
                         <img className='recipe-image' src={recipe.image} alt={recipe.title} />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './UserContext';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { setUserName } = useUser();
 
   const handleSignUp = async () => {
     try {
@@ -17,6 +19,7 @@ const Signup = () => {
         password
       });
       console.log(response.data);
+      setUserName(username);
       navigate('/home');
 
     } catch (error) {
