@@ -104,10 +104,20 @@ getRecipeInformationByID = async(id)=>{
         let data = {id: complete_data.id, title:complete_data.title, image: complete_data.image, sourceUrl: complete_data.sourceUrl, readyInMinutes: complete_data.readyInMinutes, servings: complete_data.servings}
         const extendedIngredients = complete_data.extendedIngredients
         extendedIngredients.map((ingredient)=>{
-            console.log(ingredient)
+            // console.log(ingredient)
             ingredients.push(ingredient.original)
         })
         data.ingredients = ingredients
+        // console.log(complete_data.instructions)
+        // console.log(data)
+        const regex = /<li>(.*?)<\/li>/g;
+        const listItems = [];
+        let match;
+        while ((match = regex.exec(complete_data.instructions)) !== null) {
+            listItems.push(match[1]);
+        }
+        data.instructions = listItems
+        // console.log(data)
         return data;
 
     }catch(err){
@@ -133,6 +143,7 @@ getSavedRecipeIDs=async(username)=>{
 
 getSavedRecipes=async(queryString)=>{
     try{
+        console.log(queryString)
         const response = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${api_key}&ids=${queryString}&includeNutrition=false`,{
             method: 'GET',
             headers: {
@@ -140,6 +151,7 @@ getSavedRecipes=async(queryString)=>{
             }
         })
         const data = await response.json()
+        // console.log(data)
         var dataToSend = []
         var recipeInfo = {}
         data.map((recipe)=>{
@@ -147,6 +159,7 @@ getSavedRecipes=async(queryString)=>{
             recipeInfo['title']=recipe.title
             recipeInfo['image']=recipe.image
             dataToSend.push(recipeInfo)
+            recipeInfo={}
         })
         // console.log(dataToSend)
         return dataToSend

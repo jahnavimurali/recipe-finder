@@ -40,6 +40,7 @@ export default function SavedRecipes() {
     const getSavedRecipes = async (ids) => {
         try {
             const queryString = ids.join();
+
             console.log(queryString)
             const dataStream = await fetch(`http://127.0.0.1:5000/getSavedRecipes?queryString=${queryString}`, {
                 method: 'GET',
@@ -48,6 +49,7 @@ export default function SavedRecipes() {
                 }
             });
             const data = await dataStream.json();
+            console.log(data.data)
             return data.data; 
         } catch (err) {
             console.log(err);

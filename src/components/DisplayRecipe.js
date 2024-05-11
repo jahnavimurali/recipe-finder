@@ -1,13 +1,12 @@
-// DisplayRecipe.js
-import React, {useState, useEffect}from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUser } from './UserContext';
 import axios from 'axios';
 
 export default function DisplayRecipe() {
-    const { id } = useParams(); // Access the 'id' parameter from the URL
-    const [recipeInfo, setRecipeInfo] = useState({})
-    const {userName} = useUser()
+    const { id } = useParams(); 
+    const [recipeInfo, setRecipeInfo] = useState({});
+    const { userName } = useUser();
 
     useEffect(() => {
         const fetchInfo = async () => {
@@ -19,21 +18,17 @@ export default function DisplayRecipe() {
                     }
                 });
                 const data = await response.json();
-                // console.log(data.data)
-                setRecipeInfo(data.data)
-
+                setRecipeInfo(data.data);
             } catch (err) {
                 console.log(err);
             }
         };
-    
+
         fetchInfo();
-    
     }, []);
 
-    const HandleSave = async () => {
+    const handleSave = async () => {
         try {
-            console.log("HERE", userName, id);
             const response = await fetch(`http://127.0.0.1:5000/save`, {
                 method: 'POST',
                 headers: {
@@ -49,7 +44,7 @@ export default function DisplayRecipe() {
             console.log(err);
         }
     };
-    
+
     return (
         <div className="recipe-container">
             <div className="recipe-header">
@@ -60,11 +55,10 @@ export default function DisplayRecipe() {
                 </div>
             </div>
             <div className="recipe-content">
-                <div className="recipe-image">
-                    <img src={recipeInfo.image} alt={recipeInfo.title} />
-                    <button onClick={HandleSave} >Save!</button>
-                </div>
                 <div className="recipe-details">
+                    <div className="recipe-image">
+                        <img src={recipeInfo.image} alt={recipeInfo.title} />
+                    </div>
                     <h2>Ingredients Required:</h2>
                     <ul className="ingredients-list">
                         {recipeInfo.ingredients && recipeInfo.ingredients.map((item, index) => (
@@ -72,9 +66,24 @@ export default function DisplayRecipe() {
                         ))}
                     </ul>
                 </div>
+                
             </div>
+            <div className="recipe-instructions">
+                <h2>Instructions:</h2>
+                <ol className="instructions">
+                    {recipeInfo.instructions && recipeInfo.instructions.map((instr, index) => (
+                        <li key={index}>{instr}</li>
+                    ))}
+                </ol>
+            </div>
+            <button onClick={handleSave}>Save!</button>
             <p className="more-info">Click <a href={recipeInfo.sourceUrl} target="_blank" rel="noreferrer">here</a> for more info.</p>
             <style jsx>{`
+                @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+                h1, h2{
+                    font-family: "Amatic SC", sans-serif;
+                    font-weight: bolder;
+                }
                 .recipe-container {
                     max-width: 800px;
                     margin: 0 auto;
@@ -83,6 +92,7 @@ export default function DisplayRecipe() {
                     border-radius: 10px;
                     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
                     margin-top: 20px;
+                    margin-bottom: 20px;
                 }
                 
                 .recipe-header {
@@ -106,22 +116,11 @@ export default function DisplayRecipe() {
                 
                 .recipe-content {
                     display: flex;
-                }
-                
-                .recipe-image {
-                    flex: 1;
-                    margin-right: 20px;
-                    margin-top: 20px;
-                }
-                
-                .recipe-image img {
-                    width: 100%;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    flex-direction: column;
                 }
                 
                 .recipe-details {
-                    flex: 1;
+                    margin-bottom: 20px;
                 }
                 
                 .recipe-details h2 {
@@ -138,6 +137,13 @@ export default function DisplayRecipe() {
                     margin-bottom: 10px;
                 }
                 
+                .recipe-image img {
+                    width: 50%;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    margin-left: 210px;
+                }
+                
                 .more-info {
                     text-align: center;
                     margin-top: 20px;
@@ -148,6 +154,7 @@ export default function DisplayRecipe() {
                     color: #007bff;
                     text-decoration: none;
                 }
+                
                 button {
                     color: #fff;
                     background-color: #fc8019;
@@ -158,7 +165,9 @@ export default function DisplayRecipe() {
                     font-size: 16px;
                     position: relative;
                     margin-top: 30px;
+                    margin-left: 360px;
                 }
+                
                 button:hover {
                     background-color: #ff9933;
                 }
